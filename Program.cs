@@ -1,85 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Electricity_Bill_Generator
 {
 
     public class Bill
     {
-        public int id = 0;
-        public string customerName = "";
-        public double units = 0;
-        public double amount = 0;
-        public string date = "";
+        public string id;
+        public string customerId;
+        public double units;
+        public double amount;
+        public string generatedOn;
+    }
+
+    public class Customer
+    {
+        public string id;
+        public string name;
+        public string createdAt;
+        public string username;
+        public string password;
     }
     public class BillGenerator
     {
-        string adminUsername = "admin";
-        string adminPassword = "1234";
-        int counter = 0;
+        string currentUser = "";
+        int billCount = 0;
+        int customerCount = 0;
         double perUnitCharge = 10.0;
-        List<Bill> billList = new List<Bill>();
+        public List<Bill> billsList = new List<Bill>();
+        public List<Customer> customersList = new List<Customer>();
+        private readonly AdminService adminService;
 
-        double CalculateBill(double units) {
-            return units * perUnitCharge;
+        BillGenerator(AdminService adminService) {
+            this.adminService = adminService;
         }
 
-        void NewBill(string customerName, double units) {
-             Bill newBill = new Bill {
-                id = counter++,
-                customerName = customerName,
+        public void CreateBill(double units, string customerId) {
+            Bill newBill = new Bill{
+                id = $"B{billCount}",
+                amount = adminService.perUnitCharge * units,
+                customerId = currentUser,
                 units = units,
-                amount = CalculateBill(units),
-                date = Convert.ToString(DateTime.Now)
+                generatedOn = Convert.ToString(DateTime.Now),
             };
-            billList.Add(newBill);
-
-            Console.WriteLine($"-----------Bill Generated {newBill.date}----------");
-            Console.WriteLine($"Bill ID: {newBill.id}");
-            Console.WriteLine($"Name: {newBill.customerName}");
-            Console.WriteLine($"Units Consumed: {newBill.units}");
-            Console.WriteLine($"Amount: {newBill.amount}");
         }
 
-        void AdminModule() {
-            while (true) {
-                Console.WriteLine("_________ADMIN CORNER_________");
-                Console.WriteLine("1. Update Per Unit Charge.");
-                Console.WriteLine("2. Logout.");
-                Console.Write("Enter Choice: ");
-                string choice = Console.ReadLine();
-                switch (choice)
-                {
-                    case "1":
-                        Console.WriteLine("_________ Update Per Unit Charge ________");
-                        double pervCharge = perUnitCharge;
-                        Console.Write("Enter Charge/Unit: INR ");
-                        perUnitCharge = Convert.ToDouble(Console.ReadLine());
-                        Console.WriteLine($"Successfully updated Charge/Unit from INR {pervCharge} to INR {perUnitCharge}!");
-                        break;
-
-                    case "2":
-                        return;
-
-                    default:
-                        Console.WriteLine("Invalid Choice!");
-                        break;
-                }
-            }
-        }
         static void Main(string[] args)
         {
-            BillGenerator billGen = new BillGenerator();
+            AdminService adminService = new AdminService();
+            BillGenerator billGen = new BillGenerator(adminService);
 
             while (true)
             {
-                Console.WriteLine("--------MENU---------");
-                Console.WriteLine("1. Generate New Bill.");
-                Console.WriteLine("2. View Previous Bills.");
-                Console.WriteLine("3. Admin Login");
-                Console.WriteLine("4. Exit.");
+                Console.WriteLine("____MENU____");
+                Console.WriteLine("[1] Admin Login");
+                Console.WriteLine("[2] New User? Create Account");
+                Console.WriteLine("[3] User Login");
+                Console.WriteLine("[4] Exit");
 
                 Console.Write("Enter Choice: ");
                 string choice = Console.ReadLine();
@@ -87,15 +64,13 @@ namespace Electricity_Bill_Generator
                 switch (choice)
                 {
                     case "1":
-                        Console.Write("Enter Fullname: ");
-                        string name = Console.ReadLine(); 
-                        Console.Write("Enter Units Consumed: ");
-                        double units = Convert.ToDouble(Console.ReadLine());
-                        billGen.NewBill(name, units);
+                        // Admin Login
+                        adminService.AdminLogin();
                         break;
 
                     case "2":
-                        Console.WriteLine("New Bill");
+                        // Create Account
+
                         break;
 
                     case "3":
@@ -106,7 +81,7 @@ namespace Electricity_Bill_Generator
                         string password = Console.ReadLine();
 
                         if (username == billGen.adminUsername && password == billGen.adminPassword) {
-                            billGen.AdminModule();
+                            adminService.AdminMenu();
                         }
                         else {
                             Console.WriteLine("Invalid Credentials!");

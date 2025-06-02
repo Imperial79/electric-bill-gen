@@ -6,3 +6,11 @@ D:\dotNet Projects\Electricity Bill Generator\obj\Debug\Electricity Bill Generat
 D:\dotNet Projects\Electricity Bill Generator\obj\Debug\Electricity Bill Generator.exe
 D:\dotNet Projects\Electricity Bill Generator\obj\Debug\Electricity Bill Generator.pdb
 D:\dotNet Projects\Electricity Bill Generator\obj\Debug\Electricity Bill Generator.exe.config
+D:\dotNet_Projects\bin\Debug\Electricity Bill Generator.exe.config
+D:\dotNet_Projects\bin\Debug\Electricity Bill Generator.exe
+D:\dotNet_Projects\bin\Debug\Electricity Bill Generator.pdb
+D:\dotNet_Projects\obj\Debug\Electricity Bill Generator.csproj.AssemblyReference.cache
+D:\dotNet_Projects\obj\Debug\Electricity Bill Generator.exe.config
+D:\dotNet_Projects\obj\Debug\Electricity Bill Generator.csproj.CoreCompileInputs.cache
+D:\dotNet_Projects\obj\Debug\Electricity Bill Generator.exe
+D:\dotNet_Projects\obj\Debug\Electricity Bill Generator.pdb
